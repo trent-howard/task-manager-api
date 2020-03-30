@@ -35,12 +35,12 @@ test('Should only get tasks for authenticated user', async () => {
 })
 
 test('Should not delete task where user is not owner', async () => {
-    const response = await request(app)
+    await request(app)
         .delete(`/tasks/${taskOne._id}`)
         .set('Authorization', `Bearer ${userTwo.tokens[0].token}`)
         .send()
         .expect(404)
 
-    const task = Task.findById(taskOne._id)
+    const task = await Task.findById(taskOne._id)
     expect(task).not.toBeNull()
 })
